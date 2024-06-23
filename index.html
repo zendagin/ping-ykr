@@ -15,13 +15,13 @@
             while (pt <= mx) {
                 const pm = new Promise(resolve => {
                     const pp = pt
-                    fetch(linkUrl(pt), {method: "HEAD"})
+                    fetch(linkUrl(pt), {method: "HEAD", signal: AbortSignal.timeout(timeout)})
                         .then(res => {
                             live.push(pp)
                         })
                         .catch(err => {
-                        });
-                    setTimeout(resolve, timeout)
+                        })
+                        .finally(resolve);
                 })
 
                 pms.push(pm)
