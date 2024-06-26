@@ -35,10 +35,15 @@
 
         function renderPending() {
             const root = document.getElementById("pending")
-            root.innerHTML = ""
+            if(!root) {
+                setTimeout(renderPending, 500);
+                return;
+            }
+
+            root.innerHTML = "";
             const ports = Array.from(pending);
             ports.sort();
-            for (const port of ports) {
+            for (const port of ports.reverse()) {
                 const div = document.createElement("div")
                 div.innerText = port + "";
                 root.appendChild(div);
@@ -123,6 +128,7 @@
             return "unknown"
         }
 
+        renderPending()
         scan();
     </script>
 
