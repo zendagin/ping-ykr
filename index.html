@@ -4,50 +4,65 @@
     <meta charset="UTF-8">
     <title>Ping YKR</title>
     <script lang="js">
-        function scan(timeout = 1500) {
-            let pt = 11000;
-            const mx = 11105;
+        const ports = [];
+        let pt = 11001;
+        const mx = 11105;
+        while (pt <= mx) ports.push(pt++)
+        ports.reverse()
+        const pending = new Set(ports)
 
-            const linkUrl = pt => "http://ykr.moe:" + pt;
+        const live = [];
+        const linkUrl = pt => "http://ykr.moe:" + pt;
 
-            const live = [];
-            const pms = [];
-            while (pt <= mx) {
-                const pm = new Promise(resolve => {
-                    const pp = pt
-                    fetch(linkUrl(pt), {method: "HEAD", signal: AbortSignal.timeout(timeout)})
-                        .then(res => {
-                            live.push(pp)
-                        })
-                        .catch(err => {
-                        })
-                        .finally(resolve);
-                })
+        function renderLinks() {
+            const root = document.getElementById("links")
+            root.innerHTML = ""
 
-                pms.push(pm)
+            live.sort()
+            for (const port of live) {
+                const div = document.createElement("div")
+                const span = document.createElement("span")
+                const a = document.createElement("a")
+                a.href = linkUrl(port)
+                a.innerText = linkUrl(port)
+                a.target = "_blank"
+                span.innerText = " | " + name(port)
+                div.appendChild(a)
+                div.appendChild(span)
+                root.appendChild(div)
+            }
+        }
+
+        function renderPending() {
+            const root = document.getElementById("pending")
+            root.innerHTML = ""
+            const ports = Array.from(pending);
+            ports.sort();
+            for (const port of ports) {
+                const div = document.createElement("div")
+                div.innerText = port + "";
+                root.appendChild(div);
+            }
+        }
+
+        function scan() {
+            const imgUrl = pt => `http://ykr.moe:${pt}/images/sort_desc.png`;
+
+            for (const pp of ports) {
+                const img = document.createElement("img")
+                img.onload = () => {
+                    live.push(pp)
+                    renderLinks()
+                    pending.delete(pp)
+                    renderPending()
+                }
+                img.onerror = () => {
+                    pending.delete(pp)
+                    renderPending()
+                }
+                img.src = imgUrl(pp)
                 pt++;
             }
-
-            Promise.all(pms)
-                .then(() => {
-                    const root = document.getElementById("root")
-                    if (!live.length)
-                        root.innerHTML = "---"
-
-                    live.sort()
-                    for (const port of live) {
-                        const div = document.createElement("div")
-                        const span = document.createElement("span")
-                        const a = document.createElement("a")
-                        a.href = linkUrl(port)
-                        a.innerText = linkUrl(port)
-                        a.target = "_blank"
-                        span.innerText = " | " + name(port)
-                        div.appendChild(a)
-                        div.appendChild(span)
-                        root.appendChild(div)
-                    }
-                })
         }
 
         function name(port) {
@@ -108,7 +123,7 @@
             return "unknown"
         }
 
-        scan()
+        scan();
     </script>
 
     <style>
@@ -121,7 +136,9 @@
 </head>
 <body>
 <div>
-    <div id="root"></div>
+    <div id="links"></div>
+    <hr style="margin: 8px 0;"/>
+    <div id="pending"></div>
 </div>
 </body>
 </html>
