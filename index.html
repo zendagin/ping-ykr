@@ -35,7 +35,7 @@
 
         function renderPending() {
             const root = document.getElementById("pending")
-            if(!root) {
+            if (!root) {
                 setTimeout(renderPending, 500);
                 return;
             }
@@ -51,7 +51,7 @@
         }
 
         function scan() {
-            const imgUrl = pt => `http://ykr.moe:${pt}/images/sort_desc.png`;
+            const imgUrl = pt => `http://ykr.moe:${pt}/images/sort_desc.png?t=${Date.now()}`;
 
             for (const pp of ports) {
                 const img = document.createElement("img")
