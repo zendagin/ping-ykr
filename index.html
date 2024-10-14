@@ -4,9 +4,62 @@
     <meta charset="UTF-8">
     <title>Ping YKR</title>
     <script lang="js">
+
+        const list = [
+            {name: "ゆーふうりん", s: 11000, e: 11009},
+            {name: "ぬこ", s: 11010, e: 11015},
+            {name: "成田", s: 11021, e: 11022},
+            {name: "スフィーナ", s: 11024, e: 11025},
+            {name: "くろっかす", s: 11026},
+            {name: "タマ兄", s: 11028},
+            {name: "たち", s: 11030},
+            {name: "フックン", s: 11031},
+            {name: "SHINTA", s: 11032, e: 11035},
+            {name: "よしの", s: 11036},
+            {name: "しょーきん", s: 11037},
+            {name: "プリパライム", s: 11038},
+            {name: "ポケ鉄", s: 11040, e: 11041},
+            {name: "死神フィル", s: 11042, e: 11043},
+            //...
+            {name: "愁", s: 11056},
+            {name: "すみた", s: 11058},
+            {name: "つぼはち", s: 11059},
+            {name: "れん", s: 11060},
+            {name: "百合川", s: 11061},
+            {name: "楽シャア", s: 11062},
+            {name: "なぎ", s: 11063},
+            {name: "naoo", s: 11064},
+            {name: "あにょん", s: 11065},
+            {name: "芝ちゃん", s: 11066},
+            {name: "crom", s: 11067},
+            {name: "けんしん", s: 11068},
+            {name: "けんちぃ", s: 11069},
+            {name: "黒河", s: 11070, e: 11071},
+            {name: "tokka-ta", s: 11072},
+            {name: "コウ艦長", s: 11073},
+            {name: "tukinowa", s: 11074},
+            {name: "がいばー", s: 11075},
+            {name: "v3", s: 11077},
+            {name: "のんでるん", s: 11078},
+            {name: "まどか", s: 11079},
+            {name: "ひろりん", s: 11080, e: 11081},
+            {name: "ヤマテル", s: 11082},
+            {name: "にいくら", s: 11083},
+            {name: "タカヒロ＆Lass", s: 11084, e: 11086},
+            {name: "MiO", s: 11087},
+            {name: "星崎", s: 11088},
+            {name: "月代", s: 11089},
+            {name: "えみち", s: 11101},
+            {name: "るえ", s: 11102},
+            {name: "ながし", s: 11103},
+            {name: "MrN", s: 11104},
+            {name: "ヤマテル", s: 11105},
+            {name: "遠見塚", s: 11106},
+        ]
+
         const ports = [];
         let pt = 11001;
-        const mx = 11105;
+        const mx = Math.max(...list.flatMap(({s, e}) => e || s));
         while (pt <= mx) ports.push(pt++)
         ports.reverse()
         const pending = new Set(ports)
@@ -70,62 +123,15 @@
             }
         }
 
-        function name(port) {
-            const list = [
-                {name: "ゆーふうりん", s: 11000, e: 11009},
-                {name: "ぬこ", s: 11010, e: 11015},
-                {name: "成田", s: 11021, e: 11022},
-                {name: "スフィーナ", s: 11024, e: 11025},
-                {name: "くろっかす", s: 11026},
-                {name: "タマ兄", s: 11028},
-                {name: "たち", s: 11030},
-                {name: "フックン", s: 11031},
-                {name: "SHINTA", s: 11032, e: 11035},
-                {name: "よしの", s: 11036},
-                {name: "しょーきん", s: 11037},
-                {name: "プリパライム", s: 11038},
-                {name: "ポケ鉄", s: 11040, e: 11041},
-                {name: "死神フィル", s: 11042, e: 11043},
-                //...
-                {name: "愁", s: 11056},
-                {name: "すみた", s: 11058},
-                {name: "つぼはち", s: 11059},
-                {name: "れん", s: 11060},
-                {name: "百合川", s: 11061},
-                {name: "楽シャア", s: 11062},
-                {name: "なぎ", s: 11063},
-                {name: "naoo", s: 11064},
-                {name: "あにょん", s: 11065},
-                {name: "芝ちゃん", s: 11066},
-                {name: "crom", s: 11067},
-                {name: "けんしん", s: 11068},
-                {name: "けんちぃ", s: 11069},
-                {name: "黒河", s: 11070, e: 11071},
-                {name: "tokka-ta", s: 11072},
-                {name: "コウ艦長", s: 11073},
-                {name: "tukinowa", s: 11074},
-                {name: "がいばー", s: 11075},
-                {name: "v3", s: 11077},
-                {name: "のんでるん", s: 11078},
-                {name: "まどか", s: 11079},
-                {name: "ひろりん", s: 11080, e: 11081},
-                {name: "ヤマテル", s: 11082},
-                {name: "にいくら", s: 11083},
-                {name: "タカヒロ＆Lass", s: 11084, e: 11086},
-                {name: "MiO", s: 11087},
-                {name: "星崎", s: 11088},
-                {name: "月代", s: 11089},
-                {name: "えみち", s: 11101},
-                {name: "るえ", s: 11102},
-                {name: "ながし", s: 11103},
-                {name: "MrN", s: 11104},
-                {name: "ヤマテル", s: 11105},
-            ]
-            for (const e of list) {
-                if (port === e.s || (e.e && port >= e.s && port <= e.e))
-                    return e.name;
+        const dict = {}
+        for (const e of list) {
+            for (let i = e.s; i <= (e.e || e.s); i++) {
+                dict[i] = e.name
             }
-            return "unknown"
+        }
+
+        function name(port) {
+            return dict[port] || "unknown"
         }
 
         renderPending()
